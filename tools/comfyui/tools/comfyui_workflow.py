@@ -80,5 +80,5 @@ class ComfyUIWorkflowTool(Tool):
         for img in images:
             yield self.create_blob_message(
                 blob=img["data"],
-                meta={"filename": img["filename"], "mime_type": mimetypes.guess_type(img["filename"]) or "image/png"},
+                meta={"filename": img["filename"], "mime_type": mimetypes.guess_type(img["filename"])[0] or "image/png"},
             )
