@@ -58,9 +58,7 @@ class ComfyUIWorkflowTool(Tool):
                     prompt, positive_prompt, negative_prompt
                 )
             except Exception:
-                raise ToolProviderCredentialValidationError(
-                    "Failed set prompt with KSampler, try replace prompt to {{positive_prompt}} in your workflow json"
-                )
+                pass
         if image_names:
             if image_ids := tool_parameters.get("image_ids"):
                 image_ids = image_ids.split(",")
@@ -80,5 +78,10 @@ class ComfyUIWorkflowTool(Tool):
         for img in images:
             yield self.create_blob_message(
                 blob=img["data"],
-                meta={"filename": img["filename"], "mime_type": mimetypes.guess_type(img["filename"])[0] or "image/png"},
+                meta={
+                    "filename": img["filename"],
+                    "mime_type": mimetypes.guess_type(img["filename"], strict=False)[0] or "application/octet-stream",
+                    "extension": img["filename"].split(".")[-1],
+                },
             )
+            yield self.create_json_message({"filename": img["filename"], "url": img["url"]})

@@ -94,6 +94,9 @@ class ComfyUiClient:
         history = res.json()[prompt_id]
         return history
 
+    def get_image_url(self, filename: str, subfolder: str, folder_type: str) -> str:
+        return str(self.base_url / "view") + f"?filename={filename}&subfolder={subfolder}&type={folder_type}"
+
     def get_image(self, filename: str, subfolder: str, folder_type: str) -> bytes:
         response = httpx.get(
             str(self.base_url / "view"),
@@ -252,13 +255,12 @@ class ComfyUiClient:
                     image_data = self.get_image(
                         img["filename"], img["subfolder"], img["type"]
                     )
-                    images.append(
-                        {
-                            "data": image_data,
-                            "filename": img["filename"],
-                            "type": img["type"],
-                        }
-                    )
+                    images.append({
+                        "data": image_data,
+                        "filename": img["filename"],
+                        "type": img["type"],
+                        "url": self.get_image_url(img["filename"], img["subfolder"], img["type"]),
+                    })
             return images
         finally:
             ws.close()

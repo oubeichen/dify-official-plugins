@@ -5,8 +5,8 @@ description:
   zh_Hans: ComfyUI 是一个可以在本地部署的图片生成的工具。
 icon: icon.png
 label:
-  en_US: ComfyUI
-  zh_Hans: ComfyUI
+  en_US: ComfyUI Laozi
+  zh_Hans: ComfyUI Laozi
 meta:
   arch:
     - amd64
